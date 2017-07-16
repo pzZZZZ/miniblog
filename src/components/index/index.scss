@@ -1,8 +1,6 @@
 .art_box {
-
     .header {
         background: #eff1f3;
-        height: 200px;
         position: relative;
         display: flex;
         flex-direction: column;
@@ -38,6 +36,13 @@
             -ms-user-select: none; /* Internet Explorer/Edge */
             user-select: none; /* Non-prefixed version, currently
             not supported by any browser */
+        }
+        h1{
+                // padding-top: 4px;
+                // margin-left: 105px;
+                color: #9d9d9d;
+                line-height: 1.5;
+                font-size: 16px;
         }
     }
     .navbar {
@@ -94,9 +99,5 @@
             }
         }
     }
-    .box {
-        width: 950px;
-        margin: 0 auto;
-        height: 1000px;
-    }
+   
 }

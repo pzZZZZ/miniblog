@@ -14,8 +14,15 @@ const index = {
     children: [
         {
           path: 'content',
-          component: r=>(require(['../components/content/index.vue'],r))
+          component: r=>(require(['../components/content/index.vue'],r)),
+          children:[
+          {
+            path: 'article',
+            component: r=>(require(['../components/article/index.vue'],r))
+          } 
+          ]
         }
+      
       ]
 }
 const routerDefault = {
@@ -33,6 +40,6 @@ let  routes  = [routerDefault,index];
 Vue.use(Router)
 
 export default new Router({
-  mode: 'history',
+  // mode: 'history',
   routes
 })
