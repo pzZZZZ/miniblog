@@ -19,6 +19,10 @@ const index = {
           {
             path: 'article',
             component: r=>(require(['../components/article/index.vue'],r))
+          },
+          {
+            path: 'detail',
+            component: r=>(require(['../components/artdetail/index.vue'],r))
           } 
           ]
         }

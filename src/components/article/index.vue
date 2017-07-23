@@ -14,11 +14,17 @@
       </div>
   
       <div class="card_footer">
-        <div class="authod">{{i.authod}}</div>
-        <el-button type="primary" class="showall">查看全文</el-button>
+        <div class="authod">-- by {{i.authod}} {{i.date}}</div>
+  
+        <router-link :to="{ path: 'detail', query: { id: i.id }}"> <el-button type="primary" class="showall" >查看全文</el-button></router-link>
       </div>
   
     </el-card>
+    <div class="pagination">
+      <el-pagination layout="prev, pager, next" :total="page" :current-page.sync="nowpage" :page-size=5 @current-change="pagechange">
+      </el-pagination>
+    </div>
+  
   </div>
 </template>
 <script>
@@ -29,16 +35,30 @@ Vue.use(axios)
 export default {
   data() {
     return {
-      list: []
+      list: [],
+      page: 0,
+      nowpage: 1,
+      pagesize: 5
+    }
+  },
+  methods: {
+    pagechange() {
+      console.log(this.nowpage)
+      this.pageload();
+    },
+    pageload() {
+      axios.get('http://127.0.0.1:3000/update')
+        .then((res) => {
+          console.log(res)
+          this.list = res.data;
+          this.list = res.data.slice(this.nowpage - 1, this.nowpage - 1 + this.pagesize);
+          this.page = res.data.length;
+        })
+        .then((err) => { console.log(err) })
     }
   },
   created() {
-    axios.get('http://172.16.211.149:3000/update')
-      .then((res) => {
-        console.log(res)
-        this.list = res.data
-      })
-      .then((err) => { console.log(err) })
+    this.pageload();
   },
   components: {
     // Post
@@ -63,6 +83,7 @@ export default {
   }
   .el-card {
     position: relative;
+    margin: 30px 0;
   }
   .el-card__body {
     span {
@@ -82,11 +103,32 @@ export default {
         cursor: pointer;
         transition: color .3s;
       }
+      .article_desc {
+        color: gray;
+        font-size: 14px;
+        margin-bottom: 20px;
+        word-break: break-word;
+        line-height: 1.4;
+      }
     }
   }
+
   .card_footer {
     display: flex;
     justify-content: space-between;
+    .authod {
+      color: gray;
+      font-size: 14px;
+      margin-bottom: 20px;
+      word-break: break-word;
+      line-height: 1.4;
+    }
+  }
+  .pagination{
+    display: flex;
+    justify-content: center;
+    padding-top: 40px;
+    padding-bottom: 40px;
   }
 }
 </style>
