@@ -5,7 +5,7 @@
       <h2>不定时更新~</h2>
     </div>
   
-    <el-card class="box-card" v-for="i in list">
+    <el-card class="box-card" v-for="i in list" :key="i.id">
       <span v-if="i.img" v-bind:style="{background: 'url(' + i.img + ')'}"></span>
       <div class="box_header">
         <h1>{{i.title}}</h1>
@@ -16,7 +16,9 @@
       <div class="card_footer">
         <div class="authod">-- by {{i.authod}} {{i.date}}</div>
   
-        <router-link :to="{ path: 'detail', query: { id: i.id }}"> <el-button type="primary" class="showall" >查看全文</el-button></router-link>
+        <router-link :to="{ path: 'detail', query: { id: i.id }}">
+          <el-button type="primary" class="showall">查看全文</el-button>
+        </router-link>
       </div>
   
     </el-card>
@@ -50,7 +52,10 @@ export default {
       axios.get('http://127.0.0.1:3000/update')
         .then((res) => {
           console.log(res)
-          this.list = res.data;
+          this.list = res.data.sort(function (a, b) {
+            //修正node 无法按顺序读取文件的问题
+            return b.id - a.id
+          });
           this.list = res.data.slice(this.nowpage - 1, this.nowpage - 1 + this.pagesize);
           this.page = res.data.length;
         })
@@ -124,7 +129,7 @@ export default {
       line-height: 1.4;
     }
   }
-  .pagination{
+  .pagination {
     display: flex;
     justify-content: center;
     padding-top: 40px;
