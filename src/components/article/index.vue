@@ -52,10 +52,7 @@ export default {
       axios.get('http://127.0.0.1:3000/update')
         .then((res) => {
           console.log(res)
-          this.list = res.data.sort(function (a, b) {
-            //修正node 无法按顺序读取文件的问题
-            return b.id - a.id
-          });
+          this.list = res.data;
           this.list = res.data.slice(this.nowpage - 1, this.nowpage - 1 + this.pagesize);
           this.page = res.data.length;
         })
